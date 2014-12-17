@@ -11,11 +11,11 @@ namespace AnvandningsfallRaknaPoang
     {
         static void Main() // har denna ungefär som en init funktion så jag sedan kan "simulera" att man är inloggad.
         {
-
+            test test = new test();
+            test.testMain();
             log(false);
-
         }
-
+        
         static void log(bool loggedin) //Detta är funktionen som kör det mesta annat. När denna startas skickar jag med true eller false för att se om man är "inloggad" eller inte. 
         {                               // är man inte inloggad får man logga in lösenord och användarnamn är båda "admin"
             Console.Clear();
@@ -25,7 +25,7 @@ namespace AnvandningsfallRaknaPoang
             login.userLogInput(loggedin);//startar klassen "login" och kör userLogInput där man skriver in användarnamn och lösenord. boolean "loggedin" skickas med för att se om man är inloggad eller inte.
 
             int userChoice;
-            userChoice = userInput("\nVälj ett menyalternativ inom 0-10!\n0. Räkna poäng\n1-10 stänger av!\n");
+            userChoice = userInput("\nVälj ett menyalternativ inom 0-10!\n0. Räkna poäng\nAnnan siffra stänger av!\n");
             if (userChoice == 0) //finns just nu bara 1 menyval. Väljer man 0 så har man valt enda funktionen än så länge: räkna poäng.
             {
                 int numberOfJudges = userInput("Ange antalet domare/tal från domarna (måste vara fler än 2): ");
@@ -37,26 +37,39 @@ namespace AnvandningsfallRaknaPoang
                 }
                 int[] pointArray; // array som innehåller alla poäng
                 pointArray = new int[numberOfJudges];
+                int a;
                 for (int i = 0; i < numberOfJudges; i++) // här skriver man in alla poängen till arrayen.
                 {
                     Console.Clear();
-                    pointArray[i] = userInput(string.Format("ange poäng från domare {0}: ", i + 1));
+                    a = userInput(string.Format("ange poäng från domare {0}: ", i + 1));
+                    if (a<0 || a>10)
+                    {
+                        Console.BackgroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Giltig poäng är 0-10... försök igen");
+                        Console.ResetColor();
+                        Thread.Sleep(1000);
+                        i--;
+                    }
+                    else
+                    {
+                    pointArray[i] = a;
+                    }
                 }
                 decimal averagePoints = count.average(pointArray); //räknar ut medelpoängen för arrayen. 
-                Console.WriteLine("Medelpoängen för lagets genomförande är: {0:f2}", averagePoints); //skriver ut medelpoängen.
+                Console.WriteLine("Medelpoängen för genomförandet är: {0:f2}", averagePoints); //skriver ut medelpoängen.
             }
             else
             {
                 return;
             }
-            int restart = userInput("Vad vill du göra?\n0. Ny uträkning\n1-10 stänger av...\n"); //Frågar om man vill göra en ny uträkning eller stänga av
+            int restart = userInput("Vad vill du göra?\n0. Ny uträkning\n- Annan siffra stänger av...\n"); //Frågar om man vill göra en ny uträkning eller stänga av
             if (restart == 0)
             {
                 log(true); //startar log än en gång. Denna gången skickas "true" med eftersom man redan är "inloggad"
             }
         }
 
-        static int userInput(string prompt) //kallas när man ska skriva in något som ska skrivas i nummer
+        public static int userInput(string prompt) //kallas när man ska skriva in något som ska skrivas i nummer
         {
             while (true)
             {
@@ -65,15 +78,12 @@ namespace AnvandningsfallRaknaPoang
                     //Console.Clear();
                     Console.Write(prompt);
                     int b = int.Parse(Console.ReadLine());
-                    if (b<0 || b>10)
-                    { throw new ArgumentOutOfRangeException(); }
-                    else
                     return b;
                 }
                 catch
                 {
                     Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("något blev fel... skrev du in ett nummer inom 1-10?");
+                    Console.WriteLine("något blev fel... skrev du in ett nummer?");
                     Console.ResetColor();
                     Thread.Sleep(1500);
                 }

@@ -12,7 +12,7 @@ namespace AnvandningsfallRaknaPoang
         private string _userN = "admin"; //privat fält som innehåller användarnamnet
         private string _pass = "admin"; //privat fält som innehåller lösenordet
 
-        private void loggingIn(string userN, string pass)
+        public void loggingIn(string userN, string pass)
         {
             if (userN != _userN || pass != _pass) // om det man skrev in inte stämmer överens med fälten kastas undantag...
             {                    
@@ -29,10 +29,10 @@ namespace AnvandningsfallRaknaPoang
             {
                 try
                 {
-                    Console.Write("Ange användarnamnet: ");
+                    Console.Write("Ange användarnamnet(admin): ");
                     string userN = Console.ReadLine(); //LÖSENORD OCH ANVÄNDARNAMN ÄR BÅDA "admin"
                     string pass = "";
-                    Console.Write("Ange lösenordet: "); // Den här delen gjorde jag först exakt som när jag skrev in användarnamnet. Kom på att lösenordet ska inte vara synligt när man skriver
+                    Console.Write("Ange lösenordet(admin): "); // Den här delen gjorde jag först exakt som när jag skrev in användarnamnet. Kom på att lösenordet ska inte vara synligt när man skriver
                     ConsoleKeyInfo key;                 // och därför tog jag hjälp från: http://stackoverflow.com/a/3404522 för att visa asterisker istället för vad man tryckte på
                     do
                     {
@@ -60,7 +60,7 @@ namespace AnvandningsfallRaknaPoang
                 catch //fångar undantag. Undantag kastas i "login" om man skrev fel användarnamn och/eller lösenord
                 {
                     Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("Fel användarnamn eller lösenord... försök igen!");
+                    Console.WriteLine("\nFel användarnamn eller lösenord... försök igen!");
                     Console.ResetColor();
                     Thread.Sleep(1500);
                 }
