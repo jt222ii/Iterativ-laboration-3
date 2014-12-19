@@ -11,21 +11,27 @@ namespace AnvandningsfallRaknaPoang
     {
         private string _userN = "admin"; //privat fält som innehåller användarnamnet
         private string _pass = "admin"; //privat fält som innehåller lösenordet
-
+        private bool _isloggedin = false;
         public void loggingIn(string userN, string pass)
         {
-            if (userN != _userN || pass != _pass) // om det man skrev in inte stämmer överens med fälten kastas undantag...
-            {                    
+            if (userN != UserN || pass != Pass) // om det man skrev in inte stämmer överens med fälten kastas undantag...
+            {
                 throw new ArgumentException();
             }
             else //...annars har man lyckats med inloggningen och man skickas tillbaka
-                    return;
+                Console.WriteLine("inloggning lyckad!");
+                Isloggedin = true;
+                return;
+        }
+        public void logOut()
+        {
+            Isloggedin = false;
         }
 
-        public void userLogInput(bool loggedin)
+        public void userLogInput()
         {
             Program input = new Program();
-            while (loggedin == false)
+            if (Isloggedin == false)
             {
                 try
                 {
@@ -53,18 +59,38 @@ namespace AnvandningsfallRaknaPoang
                         }
                     }
                     while (key.Key != ConsoleKey.Enter); // trycker man enter "skickar" man in lösenordet
-
+                    Console.WriteLine();
                     loggingIn(userN, pass); //skickar användarnamnet och lösenordet som man skrev in till "loggingIn" för att se om man skrev in en giltig kombination.
-                    break; //bryter loopen
+                    // break; //bryter loopen
                 }
                 catch //fångar undantag. Undantag kastas i "login" om man skrev fel användarnamn och/eller lösenord
                 {
                     Console.BackgroundColor = ConsoleColor.DarkRed;
-                    Console.WriteLine("\nFel användarnamn eller lösenord... försök igen!");
+                    Console.WriteLine("\nFel användarnamn eller lösenord...");
                     Console.ResetColor();
-                    Thread.Sleep(1500);
-                }
+                    Thread.Sleep(500);
+                } 
+            }
+            else
+            {
+                return;
             }
         }
+        public string Pass
+        {
+            get { return _pass; }
+        }
+        public string UserN
+        {
+            get { return _userN; }
+        }
+        public bool Isloggedin
+        {
+            get { return _isloggedin; }
+            set { _isloggedin = value; }
+        }
+
+
+
     }
 }

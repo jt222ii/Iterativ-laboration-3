@@ -88,7 +88,7 @@ namespace AnvandningsfallRaknaPoang
 
 
                 Console.BackgroundColor = ConsoleColor.DarkGreen;
-                Console.WriteLine("\nTryck valfri tangent för fortsätta...");
+                Console.WriteLine("\nTryck valfri tangent för nästa test!");
                 Console.ResetColor();
         }
 
